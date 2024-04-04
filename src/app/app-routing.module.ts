@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomePageComponent } from './shared/pages/home-page/home-page.component';
 import { AboutPageComponent } from './shared/pages/about-page/about-page.component';
 import { ContactPageComponent } from './shared/pages/contact-page/contact-page.component';
+import { CountriesModule } from './countries/countries.module';
 
 //definicion de las rutas:
 const routes: Routes =[
@@ -18,11 +19,18 @@ const routes: Routes =[
     path: 'contact',
     component: ContactPageComponent,
   },
+  {//Ruta para el componente Countries con LazyLoad
+    path: 'countries',
+    loadChildren: () => import ('./countries/countries.module').then(m => CountriesModule),
+    //para acceder a las rutas que contiene Countries
+
+  },
   {//ruta cuando no es nignuna de las anteriores, ejemplo http://localhost:4200
     path: '**',
     redirectTo: '',
   }
 ]
+
 
 @NgModule({
   imports: [
