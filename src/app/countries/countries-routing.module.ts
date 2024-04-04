@@ -15,7 +15,7 @@ const routes : Routes = [
     component: ByRegionPageComponent,
   },
   {
-    path:'by-capital',
+    path:'by-country',
     component: ByCountryPageComponent,
   },
   {
