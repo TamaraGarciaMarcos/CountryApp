@@ -2,12 +2,17 @@
 
   <div class="col-3">
     <!-- Sidebar -->
-    sidebar
+    <shared-sidebar></shared-sidebar>
   </div>
 
   <div class="col">
     <!-- Nuestras páginas  -->
-    router
+    <!-- <shared-home-page></shared-home-page> -->
+    <!-- <shared-about-page></shared-about-page> -->
+
+<!-- dependiendo de la ruta renderizará el compnente en la siguiente instrucción  -->
+    <router-outlet></router-outlet>
+
   </div>
 
 
