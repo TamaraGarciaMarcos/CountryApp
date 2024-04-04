@@ -23,7 +23,10 @@ const routes : Routes = [
     path:'by/:id',
     component: CountryPageComponent,
   },
-
+  {//ruta cuando no es nignuna de las anteriores, ejemplo http://localhost:4200
+    path: '**',
+    redirectTo: 'by-capital',
+  }
 
 ]
 

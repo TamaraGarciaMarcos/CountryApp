@@ -7,10 +7,10 @@ import { CountriesModule } from './countries/countries.module';
 
 //definicion de las rutas:
 const routes: Routes =[
-  {//ruta del homePage: http://localhost:4200/home
-  path: '',
-  component: HomePageComponent,
-  },
+  // {//ruta del homePage: http://localhost:4200/home
+  // path: '',
+  // component: HomePageComponent,
+  // },
   {//Ruta sobre el aboutPAge: http://localhost:4200/about
     path: 'about',
     component: AboutPageComponent,
@@ -27,7 +27,7 @@ const routes: Routes =[
   },
   {//ruta cuando no es nignuna de las anteriores, ejemplo http://localhost:4200
     path: '**',
-    redirectTo: '',
+    redirectTo: 'countries',
   }
 ]
 
