@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, of } from 'rxjs';
+import { Observable, catchError, map, of } from 'rxjs';
 import { Country } from '../interfaces/country';
 
 
@@ -13,6 +13,15 @@ export class CountriesService {
   constructor(private http: HttpClient) {
 
    }
+
+   searchCountryByAlphaCode(code: string): Observable <Country | null>{
+    const url = `${this.apiUrl}/alpha/${code}`
+    return this.http.get <Country[]>(url)
+      .pipe(//of sirve para construir un observable basado en el argumento que se le pasa
+        map (countries => countries.length > 0 ? countries[0] : null),
+        catchError(error =>of (null))
+      )
+  }
 
    //metodo que hace una solicitud a la API
    searchCapital( termBusqueda: string ): Observable <Country[]> {
@@ -42,6 +51,7 @@ export class CountriesService {
           catchError(error =>of ([]))
         )
     }
+
 
 
 
