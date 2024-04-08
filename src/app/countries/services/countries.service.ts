@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, delay, map, of } from 'rxjs';
-import { Country } from '../interfaces/country';
+import { Observable, catchError, delay, map, of, tap } from 'rxjs';
+
+import { Country } from '../interfaces/country.interface';
+import { cacheStore } from '../interfaces/cache-store.interface';
+import { Region } from '../interfaces/region.type';
 
 
 @Injectable({providedIn: 'root'})
@@ -9,6 +12,13 @@ import { Country } from '../interfaces/country';
 export class CountriesService {
 
   private apiUrl: string = 'https://restcountries.com/v3.1'
+
+  public cacheStore: cacheStore = {
+    byCapital: {term: '', countries: []},
+    byCountries: {term: '', countries: []},
+    byRegion: {region: '', countries: []},
+
+  }
 
   constructor(private http: HttpClient) {
 
@@ -18,7 +28,7 @@ export class CountriesService {
     return this.http.get<Country[]>(url)
       .pipe(
         catchError(()=> of([])),
-        delay(1000),
+        delay(500),
         )
    }
 
@@ -43,7 +53,10 @@ export class CountriesService {
        of sirve para construir un observable basado en el argumento que se le pasa
        catchError(error => of ([]))
      )*/
-      return this. getCountriesRequest(url)
+      return this.getCountriesRequest(url)
+        .pipe(
+          tap( countries => this.cacheStore.byCapital = {term: termBusqueda, countries})
+        )
    }
 
    searchCountry(termBusqueda2: string): Observable <Country[]>{
@@ -53,15 +66,21 @@ export class CountriesService {
       //     catchError(error =>of ([]))
       //   )
       return this. getCountriesRequest(url)
+      .pipe(
+        tap( countries => this.cacheStore.byCountries = {term: termBusqueda2, countries})
+      )
     }
 
-    searchRegion(region: string): Observable <Country[]>{
+    searchRegion(region: Region): Observable <Country[]>{
       const url = `${this.apiUrl}/region/${region}`
       // return this.http.get <Country[]>(url)
       //   .pipe(//of sirve para construir un observable basado en el argumento que se le pasa
       //     catchError(error =>of ([]))
       //   )
       return this. getCountriesRequest(url)
+      .pipe(
+        tap( countries => this.cacheStore.byRegion = {region, countries})
+      )
     }
 
 }
